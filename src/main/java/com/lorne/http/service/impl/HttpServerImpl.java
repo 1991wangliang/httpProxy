@@ -6,6 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.HttpRequest;
 import net.lightbody.bmp.mitm.CertificateAndKeySource;
 import net.lightbody.bmp.mitm.KeyStoreFileCertificateSource;
+import net.lightbody.bmp.mitm.PemFileCertificateSource;
 import net.lightbody.bmp.mitm.RootCertificateGenerator;
 import net.lightbody.bmp.mitm.keys.ECKeyGenerator;
 import net.lightbody.bmp.mitm.manager.ImpersonatingMitmManager;
@@ -42,23 +43,35 @@ public class HttpServerImpl implements HttpServer {
     @Override
     public void start() {
 
+        //http://blog.csdn.net/houjixin/article/details/25806151
+        //https://github.com/lightbody/browsermob-proxy/tree/master/mitm
+        String path = "d://lcn";
+        String cerPath = path+"/myca.cer";
+        String pemPath = path+"/mykey.pem";
+        String password = "pwdm12345x";
+
         // create a dyamic CA root certificate generator using Elliptic Curve keys
         RootCertificateGenerator ecRootCertificateGenerator = RootCertificateGenerator.builder()
                 .keyGenerator(new ECKeyGenerator())     // use EC keys, instead of the default RSA
                 .build();
 
         // save the dynamically-generated CA root certificate for installation in a browser
-        ecRootCertificateGenerator.saveRootCertificateAsPemFile(new File("d:/lcn/myca.cer"));
+        ecRootCertificateGenerator.saveRootCertificateAsPemFile(new File(cerPath));
 
         // save the dynamically-generated CA private key for use in future LittleProxy executions
         // (see CustomCAPemFileExample.java for an example loading a previously-generated CA cert + key from a PEM file)
-        ecRootCertificateGenerator.savePrivateKeyAsPemFile(new File("d:/lcn/mykey.pem"),
-                "mypasswod");
+        ecRootCertificateGenerator.savePrivateKeyAsPemFile(new File(pemPath),
+                password);
 
+
+        PemFileCertificateSource fileCertificateSource = new PemFileCertificateSource(
+                new File(cerPath),    // the PEM-encoded certificate file
+                new File(pemPath),    // the PEM-encoded private key file
+                password);
 
         ImpersonatingMitmManager mitmManager = ImpersonatingMitmManager.builder()
-                .rootCertificateSource(ecRootCertificateGenerator)
-                .serverKeyGenerator(new ECKeyGenerator())
+                .rootCertificateSource(fileCertificateSource)
+             //   .serverKeyGenerator(new ECKeyGenerator())
                 .build();
 
         HttpProxyServerBootstrap bootstrap = DefaultHttpProxyServer.bootstrap()
