@@ -1,7 +1,8 @@
 package com.lorne.http.service.impl;
 
-import com.lorne.core.framework.utils.config.ConfigHelper;
 import com.lorne.http.service.UserService;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,15 +12,19 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService{
 
 
-    private ConfigHelper helper = null;
+    private PropertiesConfiguration configuration = null;
 
     public UserServiceImpl() {
-        helper = new ConfigHelper("users.properties");
+        try {
+            configuration = new PropertiesConfiguration("users.properties");
+        } catch (ConfigurationException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public boolean authenticate(String userName, String password) {
-        return password.equals(helper.getStringValue(userName));
+        return password.equals(configuration.getString(userName));
     }
 
 }

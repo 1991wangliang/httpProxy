@@ -2,6 +2,7 @@ package com.lorne.http.service.impl;
 
 import com.lorne.http.service.HttpServer;
 import com.lorne.http.service.UserService;
+import net.lightbody.bmp.mitm.manager.ImpersonatingMitmManager;
 import org.littleshoot.proxy.HttpProxyServer;
 import org.littleshoot.proxy.ProxyAuthenticator;
 import org.littleshoot.proxy.impl.DefaultHttpProxyServer;
@@ -20,7 +21,7 @@ public class HttpServerImpl implements HttpServer {
     @Value("${http.port}")
     private int httpPort;
 
-    private  HttpProxyServer server = null;
+    private HttpProxyServer server = null;
 
     @Autowired
     private UserService userService;
@@ -28,20 +29,8 @@ public class HttpServerImpl implements HttpServer {
     @Override
     public void start() {
        server = DefaultHttpProxyServer.bootstrap()
-               .withProxyAuthenticator(new ProxyAuthenticator() {
-
-                   @Override
-                   public boolean authenticate(String userName, String password) {
-                       return userService.authenticate(userName,password);
-                   }
-
-                   @Override
-                   public String getRealm() {
-                       return "admin";
-                   }
-               })
-               .withAddress(new InetSocketAddress(httpPort))
-               .start();
+       .withAddress(new InetSocketAddress(httpPort))
+       .start();
 
     }
 
