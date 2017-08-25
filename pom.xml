@@ -47,29 +47,41 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>io.netty</groupId>-->
-            <!--<artifactId>netty-all</artifactId>-->
-            <!--<version>4.1.12.Final</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.12.Final</version>
+        </dependency>
 
         <dependency>
             <groupId>org.littleshoot</groupId>
             <artifactId>littleproxy</artifactId>
-            <version>1.1.1</version>
+            <version>1.1.2</version>
         </dependency>
 
         <dependency>
             <groupId>net.lightbody.bmp</groupId>
             <artifactId>mitm</artifactId>
-            <version>2.1.1</version>
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>io.netty</groupId>-->
-                    <!--<artifactId>netty-all</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
+            <version>2.1.4</version>
         </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>com.github.ganskef</groupId>-->
+            <!--<artifactId>littleproxy-mitm</artifactId>-->
+            <!--<version>1.1.0</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>net.lightbody.bmp</groupId>-->
+            <!--<artifactId>mitm</artifactId>-->
+            <!--<version>2.1.1</version>-->
+            <!--&lt;!&ndash;<exclusions>&ndash;&gt;-->
+                <!--&lt;!&ndash;<exclusion>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<groupId>io.netty</groupId>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<artifactId>netty-all</artifactId>&ndash;&gt;-->
+                <!--&lt;!&ndash;</exclusion>&ndash;&gt;-->
+            <!--&lt;!&ndash;</exclusions>&ndash;&gt;-->
+        <!--</dependency>-->
 
     </dependencies>
 

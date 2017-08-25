@@ -5,7 +5,7 @@ package com.lorne.http.service;
  */
 public interface HttpServer {
 
-    void start();
+    void start() ;
 
     void close();
 }
